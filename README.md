@@ -15,13 +15,14 @@
 - **图谱可视化**：交互式知识图谱展示
 - **图谱搜索**：按关键词、实体类型、关系类型搜索
 - **多数据源支持**：支持 TXT、Markdown、PDF、Word、HTML、JSON 等格式
-<img width="1383" height="716" alt="1" src="https://github.com/user-attachments/assets/9386c2a2-18ea-4548-b930-21d0e0a970e0" />
-<img width="1370" height="816" alt="2" src="https://github.com/user-attachments/assets/6bb4e058-acc5-49a6-8ace-24c6a211e222" />
-<img width="1351" height="722" alt="3" src="https://github.com/user-attachments/assets/2cfc8804-54c9-41bd-9e61-5f77ce772086" />
-<img width="1349" height="830" alt="4" src="https://github.com/user-attachments/assets/bada1473-690f-4913-b6a3-0cb1e9a55bb9" />
-<img width="1338" height="835" alt="5" src="https://github.com/user-attachments/assets/4cfa1c3a-4764-45a9-a856-afcf9ae5c2b9" />
-<img width="1349" height="838" alt="6" src="https://github.com/user-attachments/assets/5dff20b6-9e89-4b94-8f11-b35c66a48e14" />
-<img width="1388" height="815" alt="7" src="https://github.com/user-attachments/assets/d0976875-5a6b-4516-9e11-db356dcc5a1a" />
+<img width="1383" height="716" alt="1" src="https://github.com/user-attachments/assets/5a1f34f6-70db-4d2f-9c82-feee371d8e54" />
+<img width="1370" height="816" alt="2" src="https://github.com/user-attachments/assets/2127235f-a8be-4a4f-8ec2-19432edde00f" />
+<img width="1351" height="722" alt="3" src="https://github.com/user-attachments/assets/a0ea589c-b486-4cd2-9dfc-3e4feff2d561" />
+<img width="1349" height="830" alt="4" src="https://github.com/user-attachments/assets/38fff3ff-4ecc-4b94-805c-06e0d0f82b67" />
+<img width="1338" height="835" alt="5" src="https://github.com/user-attachments/assets/cceb9b98-bc17-4769-916f-bf2ea7a8e367" />
+<img width="1349" height="838" alt="6" src="https://github.com/user-attachments/assets/75ee9dce-d144-4a69-957a-0aa38e03b1a3" />
+<img width="1388" height="815" alt="7" src="https://github.com/user-attachments/assets/d771f85e-4e57-4bde-b023-5c938d946b20" />
+
 
 ### 技术栈
 

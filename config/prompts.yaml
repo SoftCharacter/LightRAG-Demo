@@ -1,0 +1,131 @@
+# Prompt Templates for LightRAG Knowledge Graph System
+# These templates can be customized for different domains and languages
+
+# =============================================================================
+# Entity Extraction Prompt
+# =============================================================================
+entity_extraction_system: |
+  ---Role---
+  You are a Knowledge Graph Specialist responsible for extracting entities and relationships from input text.
+
+  ---Instructions---
+  1. **Entity Extraction & Output:**
+     * Identify clearly defined and meaningful entities in the input text
+     * For each entity, extract:
+       - entity_name: The name (use title case for case-insensitive names)
+       - entity_type: One of {entity_types}. If none apply, use "Other"
+       - entity_description: Concise description based on the input text
+     * Output format: entity{tuple_delimiter}entity_name{tuple_delimiter}entity_type{tuple_delimiter}entity_description
+
+  2. **Relationship Extraction & Output:**
+     * Identify direct, clearly stated relationships between entities
+     * Decompose N-ary relationships into binary pairs
+     * For each relationship:
+       - source_entity: Source entity name (consistent with extraction)
+       - target_entity: Target entity name (consistent with extraction)
+       - relationship_keywords: High-level keywords (comma-separated, NO {tuple_delimiter})
+       - relationship_description: Clear explanation of the connection
+     * Output format: relation{tuple_delimiter}source_entity{tuple_delimiter}target_entity{tuple_delimiter}relationship_keywords{tuple_delimiter}relationship_description
+
+  3. **Guidelines:**
+     * Use third-person perspective, avoid pronouns
+     * Treat relationships as undirected unless explicitly stated
+     * Output entities first, then relationships
+     * End with {completion_delimiter}
+     * Output language: {language}
+     * Retain proper nouns in original language if no proper translation exists
+
+  ---Examples---
+  {examples}
+
+entity_extraction_user: |
+  ---Task---
+  Extract entities and relationships from the input text below.
+
+  ---Entity Types---
+  [{entity_types}]
+
+  ---Input Text---
+  ```
+  {input_text}
+  ```
+
+  ---Output---
+
+# =============================================================================
+# Query Prompts
+# =============================================================================
+naive_query: |
+  ---Role---
+  You are a helpful assistant answering questions based on provided context.
+
+  ---Context---
+  {context_data}
+
+  ---Question---
+  {query_string}
+
+  ---Instructions---
+  1. Answer based ONLY on the provided context
+  2. If the context doesn't contain the answer, state clearly
+  3. Cite specific entities/chunks when relevant
+  4. Be concise but comprehensive
+
+local_query: |
+  ---Role---
+  You are a Knowledge Graph expert answering questions using graph-based context.
+
+  ---Graph Context---
+  Entities: {entities}
+  Relationships: {relationships}
+  Related Chunks: {chunks}
+
+  ---Question---
+  {query_string}
+
+  ---Instructions---
+  1. Leverage the entity-relationship graph structure
+  2. Trace reasoning paths through connected entities
+  3. Cite entities and relationships in your answer
+  4. Explain the reasoning chain
+
+global_query: |
+  ---Role---
+  You are analyzing a knowledge graph to answer high-level questions.
+
+  ---Community Summaries---
+  {community_summaries}
+
+  ---Question---
+  {query_string}
+
+  ---Instructions---
+  1. Synthesize information from community summaries
+  2. Identify cross-community patterns
+  3. Provide a comprehensive, strategic answer
+  4. Highlight key themes and trends
+
+# =============================================================================
+# Keyword Extraction Prompt
+# =============================================================================
+keywords_extraction: |
+  Extract high-level keywords (concepts, entities, themes) from the following query.
+  Return as a comma-separated list.
+
+  Query: {query_string}
+
+  Keywords:
+
+# =============================================================================
+# Custom Prompts (User-defined)
+# =============================================================================
+custom:
+  # Add your domain-specific prompts here
+  medical_entity_extraction: |
+    Extract medical entities (diseases, symptoms, treatments, medications) from:
+    {input_text}
+
+  legal_relationship_extraction: |
+    Extract legal relationships (plaintiff, defendant, precedent) from:
+    {input_text}
+

@@ -1,0 +1,193 @@
+# LightRAG Knowledge Graph QA System Configuration
+# Version: 1.0
+# Last Updated: 2026-01
+
+# =============================================================================
+# LLM Configuration (Large Language Model)
+# =============================================================================
+llm:
+  provider: "ollama"  # Options: openai, ollama, anthropic, gemini, bedrock, zhipu
+  # 注意：gemma3:4b 模型太小，无法正确遵循 LightRAG 的实体提取格式
+  # 推荐使用 7B+ 参数的模型，如 qwen2.5:7b, llama3:8b, deepseek-r1:32b
+  model_name: "deepseek-r1:32b"  # 改用更强的模型
+  api_key: "${OPENAI_API_KEY}"  # Use environment variable for security
+#  base_url: "https://api.openai.com/v1"  # Optional: for proxies or compatible APIs
+  base_url: 'http://localhost:11434'
+  temperature: 0.3  # 降低温度以获得更稳定的格式输出
+  max_tokens: 4096  # 增加 token 限制
+  timeout: 600  # 大模型需要更长超时时间
+
+  # Optional: Model-specific parameters
+  model_kwargs:
+    top_p: 0.95
+    frequency_penalty: 0.0
+    presence_penalty: 0.0
+
+  # Gemini-specific configuration (uncomment to use Gemini)
+#  provider: "gemini"
+#  model_name: "gemini-3-flash-preview"  # or gemini-1.5-pro, gemini-1.5-flash
+#  api_key: "${GEMINI_API_KEY}"
+#  temperature: 0.7
+#  max_tokens: 8192
+
+# =============================================================================
+# Embedding Model Configuration
+# =============================================================================
+embedding:
+  provider: "ollama"  # Options: openai, sentence-transformers, ollama, jina, gemini
+  model_name: "bge-m3:latest"
+  api_key: "${OPENAI_API_KEY}"
+  batch_size: 100
+  max_token_size: 8192
+  embedding_dim: 1024  # Auto-detect if not specified
+  timeout: 600  # seconds
+
+  # Gemini embedding configuration (uncomment to use Gemini)
+#   provider: "gemini"
+#   model_name: "gemini-embedding-001"  # or embedding-001
+#   api_key: "${GEMINI_API_KEY}"
+#   embedding_dim: 768  # Gemini embeddings are 768-dimensional
+#   batch_size: 32  # Reduced to avoid timeout issues
+
+# =============================================================================
+# Vector Store Configuration
+# =============================================================================
+vector_store:
+  backend: "qdrant"  # Options: nanovec, qdrant, milvus, postgres
+
+  # Qdrant specific settings
+  url: "${QDRANT_URL}"  # Use environment variable, defaults to http://localhost:6333
+  collection_name: "lightrag_vectors"
+
+  # Common settings
+  distance_metric: "cosine"  # cosine, euclidean, dot
+  cache_enabled: true
+
+# =============================================================================
+# Graph Store Configuration
+# =============================================================================
+graph_store:
+  backend: "neo4j"  # Options: neo4j, networkx, postgres, mongodb
+
+  # Neo4j specific settings
+  uri: "${NEO4J_URI}"
+  username: "${NEO4J_USERNAME}"
+  password: "${NEO4J_PASSWORD}"
+  workspace: "default"  # Multi-tenant isolation
+
+  # Connection pool settings
+  max_connection_pool_size: 50
+  connection_timeout: 30.0
+  connection_acquisition_timeout: 30.0
+
+# =============================================================================
+# RAG Engine Configuration
+# =============================================================================
+rag:
+  # Text chunking
+  chunk_size: 1200  # tokens
+  chunk_overlap: 100  # tokens
+
+  # Query settings
+  top_k: 60  # Number of entities/relations to retrieve
+  chunk_top_k: 30  # Maximum chunks in context
+  query_mode: "hybrid"  # Options: naive, local, global, hybrid
+
+  # Vector search settings
+  # 注意：cosine_threshold 越低，搜索越宽松；设置过高会导致 no-context 错误
+  cosine_threshold: 0.1  # 降低阈值以提高召回率 (0.0-1.0)
+
+  # Entity extraction
+  max_gleaning: 1  # Maximum entity extraction attempts
+  entity_types:
+    - "Person"
+    - "Organization"
+    - "Location"
+    - "Technology"
+    - "Concept"
+    - "Event"
+    - "Product"
+
+  # Language settings
+  language: "Chinese"  # 中文文档使用 Chinese，英文文档使用 English
+
+# =============================================================================
+# Document Processing Configuration
+# =============================================================================
+document_processing:
+  max_files: 1000
+  max_file_size_mb: 10
+  supported_formats:
+    - ".txt"
+    - ".md"
+    - ".pdf"
+    - ".docx"
+    - ".html"
+    - ".json"
+  batch_size: 50  # Process N documents at a time
+  skip_existing: true  # Skip already processed documents
+
+# =============================================================================
+# Performance Configuration
+# =============================================================================
+performance:
+  # Concurrency limits - 降低并发避免 Ollama 503 错误
+  llm_max_async: 4  # 从16降到4，避免LLM过载
+  embedding_max_async: 8  # 从32降到8，避免Embedding过载
+  max_parallel_insert: 4  # 从10降到4
+
+  # Timeouts - 增加超时时间
+  llm_timeout: 300  # 从120增加到300
+  embedding_timeout: 120  # 从60增加到120
+
+  # Memory management
+  enable_cache: true
+  cache_ttl: 3600  # seconds
+
+# =============================================================================
+# Persistence Configuration
+# =============================================================================
+persistence:
+  working_dir: "./rag_storage"
+  enable_cache: true
+  auto_save: true
+  incremental_update: true
+  backup_enabled: false
+  backup_interval: 86400  # seconds (24 hours)
+
+# =============================================================================
+# Logging Configuration
+# =============================================================================
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file_path: "./logs/lightrag.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+  console_output: true
+
+# =============================================================================
+# Web UI Configuration
+# =============================================================================
+webui:
+  host: "127.0.0.1"
+  port: 7860
+  share: false  # Gradio public link
+  auth_enabled: false
+  # If auth_enabled=true, set credentials
+  username: "admin"
+  password: "${WEBUI_PASSWORD}"
+  
+  # Visualization settings
+  visualization:
+    max_nodes: 200
+    node_size_range: [10, 30]
+    edge_width_range: [1, 5]
+    physics_enabled: true
+
+    # 核心节点优先策略：每种实体类型初始显示的最大节点数
+    # 设置较小的值可以让初始图谱更简洁，用户可通过点击展开查看更多节点
+    # 设置为 1-2：极简图谱，适合节点很多的场景
+    # 设置为 3-5：平衡模式（推荐）
+    # 设置为 10+：显示更多节点，接近完整图谱
+    top_n_per_type: 2
+

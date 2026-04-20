@@ -1,0 +1,56 @@
+# LightRAG Knowledge Graph QA System - Dependencies
+
+# Core Framework
+lightrag>=0.1.0
+
+# LLM Providers
+openai>=1.0.0
+anthropic>=0.20.0
+google-genai>=0.2.0  # Google Gemini API (new SDK)
+
+# Embedding & ML
+sentence-transformers>=2.2.0
+torch>=2.0.0
+numpy>=1.24.0
+
+# Vector Databases
+qdrant-client>=1.7.0
+pymilvus>=2.3.0
+
+# Graph Databases
+neo4j>=5.0.0
+networkx>=3.0
+pymongo>=4.0.0
+
+# Document Processing
+pypdf>=3.0.0
+python-docx>=0.8.11
+beautifulsoup4>=4.12.0
+markdown>=3.5.0
+
+# Web Framework
+gradio>=4.0.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+
+# Visualization
+pyvis>=0.3.2
+matplotlib>=3.7.0
+
+# CLI & Utilities
+rich>=13.0.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+aiofiles>=23.0.0
+nest_asyncio>=1.5.0  # 解决 Gradio 事件循环冲突
+
+# Optional: Additional LLM Providers
+# boto3>=1.28.0  # For AWS Bedrock
+# zhipuai>=1.0.0  # For Zhipu AI
+
+# Development Tools (optional)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.1.0
+

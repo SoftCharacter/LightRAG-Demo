@@ -1,0 +1,96 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# RAG Storage
+rag_storage/
+!rag_storage/.gitkeep
+
+# Neo4j
+neo4j_data/
+neo4j_logs/
+
+# Qdrant
+qdrant_data/
+
+# Temporary Files
+*.tmp
+*.temp
+.cache/
+.pytest_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Documentation Build
+docs/_build/
+site/
+
+# Coverage Reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Exports
+knowledge_graph.*
+*.graphml
+*.html
+
+# User Documents (optional - remove if you want to track them)
+# documents/*
+# !documents/.gitkeep
+# !documents/*.md
+
